@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
-%matplotlib inline
+
 
 #
 #DEFINE POLYGON VERTICES
@@ -116,3 +116,4 @@ p = PatchCollection(
     cmap=matplotlib.cm.jet,
     alpha=0.4)
 ax.add_collection(p)
+plt.show()
