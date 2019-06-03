@@ -12,15 +12,15 @@ from matplotlib.collections import PatchCollection
 #
 #DEFINE POLYGON VERTICES
 #
-a1=np.array([[0,0.015625],
+boxside1 =np.array([[0,0.015625],
               [0.015625*.866,0.015625*1.5],
               [0.015625*2*.866,0.015625],
              [0.015625*.866,0.015625*.5]])
-a2=np.array([[0.015625*2*.866,0.015625],
+boxside2=np.array([[0.015625*2*.866,0.015625],
               [0.015625*2*.866,0],
               [0.015625*.866,0.015625*-.5],
               [0.015625*.866,0.015625*.5]])
-a3=np.array([[0,0.015625],
+boxside3=np.array([[0,0.015625],
               [0.015625*.866,0.015625*.5],
               [0.015625*.866,0.015625*-.5],
               [0,0]])
@@ -50,13 +50,13 @@ for i in range(38):
     for j in range(33):
         if i%2==0:
             #EVEN ROWS NO INDENTATION OF POLYGONS
-            b=np.array([[2*j*0.015625,i*1.734*0.015625],
+            position = np.array([[2*j*0.015625,i*1.734*0.015625],
                        [2*j*0.015625,i*1.734*0.015625],
                        [2*j*0.015625,i*1.734*0.015625],
                        [2*j*0.015625,i*1.734*0.015625]])
         elif i%2==1:
             #ODD ROWS ARE INDENTED
-            b= np.array([[2*j*0.015625-.983*0.015625,i*1.734*0.015625],
+            position = np.array([[2*j*0.015625-.983*0.015625,i*1.734*0.015625],
                        [2*j*0.015625-.983*0.015625,i*1.734*0.015625],
                        [2*j*0.015625-.983*0.015625,i*1.734*0.015625],
                        [2*j*0.015625-.983*0.015625,i*1.734*0.015625]])
@@ -89,22 +89,30 @@ for i in range(38):
                 colcol=lowcol
             elif j%3 > 0:
                 colcol=medcol
-        c1=a1+b
-        c2=a2+b
-        c3=a3+b
-        rowcol=np.array([((38-i)/76),((38-2*((i-19)**2)**.5)/76),(i/76)])
-        polygon1 = Polygon(c1, True)
+        polygonverts1=boxside1+position
+        polygonverts2=boxside2+position
+        polygonverts3=boxside3+position
+        rowcol=np.array(
+            [((38-i)/76),
+            ((38-2*((i-19)**2)**.5)/76),
+            (i/76)])
+        polygon1 = Polygon(polygonverts1, True)
         patches.append(polygon1)
         colors.append(tuple(col1+rowcol+colcol))
-        polygon2 = Polygon(c2, True)
+        polygon2 = Polygon(polygonverts2, True)
         patches.append(polygon2)
         colors.append(tuple(col2+rowcol+colcol))
-        polygon3 = Polygon(c3, True)
+        polygon3 = Polygon(polygonverts3, True)
         patches.append(polygon3)
         colors.append(tuple(col3+rowcol+colcol))
 
 #
 #APPEND PATCHES AND COLORS TO PLOT
 #
-p = PatchCollection(patches, edgecolors=(0,0,0),facecolors=colors,cmap=matplotlib.cm.jet, alpha=0.4)
+p = PatchCollection(
+    patches,
+    edgecolors=(0,0,0),
+    facecolors=colors,
+    cmap=matplotlib.cm.jet,
+    alpha=0.4)
 ax.add_collection(p)
